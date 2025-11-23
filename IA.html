@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Paisaje Bonito en A-Frame</title>
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  </head>
+
+  <body>
+    <a-scene>
+
+      <!-- Cielo panorámico -->
+      <a-sky src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg"></a-sky>
+
+      <!-- Suelo -->
+      <a-plane 
+        rotation="-90 0 0"
+        width="100" 
+        height="100"
+        color="#7BC8A4">
+      </a-plane>
+
+      <!-- Árboles -->
+      <a-entity position="-4 0 -5">
+        <a-cylinder height="2" radius="0.25" color="#8B5A2B"></a-cylinder>
+        <a-sphere position="0 2 0" radius="1.2" color="#228B22"></a-sphere>
+      </a-entity>
+
+      <a-entity position="4 0 -6">
+        <a-cylinder height="2" radius="0.25" color="#8B5A2B"></a-cylinder>
+        <a-sphere position="0 2 0" radius="1.3" color="#2E8B57"></a-sphere>
+      </a-entity>
+
+      <!-- Sol -->
+      <a-sphere 
+        position="0 20 -30"
+        radius="5"
+        color="#FFD700"
+        emissive="#FFEE88">
+      </a-sphere>
+
+      <!-- Cámara del usuario -->
+      <a-entity camera look-controls wasd-controls position="0 1.6 0"></a-entity>
+
+    </a-scene>
+  </body>
+</html>
