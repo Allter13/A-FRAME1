@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Parque de Atracciones en A-Frame</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+</head>
+
+<body>
+  <a-scene>
+
+    <!-- Cielo -->
+    <a-sky color="#87CEEB"></a-sky>
+
+    <!-- Suelo -->
+    <a-plane rotation="-90 0 0" width="200" height="200" color="#4CAF50"></a-plane>
+
+    <!-- ==================== -->
+    <!-- 🎡 NORIA ANIMADA -->
+    <!-- ==================== -->
+    <a-entity position="0 0 -15">
+      <!-- Soportes -->
+      <a-box position="-2 2 0" depth="0.5" width="0.5" height="6" color="#555"></a-box>
+      <a-box position="2 2 0" depth="0.5" width="0.5" height="6" color="#555"></a-box>
+
+      <!-- Rueda -->
+      <a-entity id="wheel" rotation="0 0 0" animation="property: rotation; to: 0 0 360; loop: true; dur: 10000; easing: linear;">
+        <a-torus radius="4" radius-tubular="0.15" color="#FFC107"></a-torus>
+
+        <!-- Cabinas -->
+        <a-sphere position="0 4 0" radius="0.4" color="#FF5722"></a-sphere>
+        <a-sphere position="0 -4 0" radius="0.4" color="#3F51B5"></a-sphere>
+        <a-sphere position="4 0 0" radius="0.4" color="#8BC34A"></a-sphere>
+        <a-sphere position="-4 0 0" radius="0.4" color="#E91E63"></a-sphere>
+      </a-entity>
+    </a-entity>
+
+
+    <!-- ==================== -->
+    <!-- 🎢 MONTAÑA RUSA -->
+    <!-- ==================== -->
+    <a-entity position="-15 0 -10">
+      <!-- Rail principal -->
+      <a-torus arc="270" radius="8" radius-tubular="0.2" color="#B71C1C" rotation="90 0 0"></a-torus>
+
+      <!-- Carrito -->
+      <a-box id="carrito" 
+             position="0 0 0" 
+             depth="1" height="1" width="1" 
+             color="#000"
+             animation="property: position; 
+                        dir: alternate;
+                        to: 8 4 0; 
+                        loop: true; 
+                        dur: 5000; 
+                        easing: easeInOutSine;">
+      </a-box>
+    </a-entity>
+
+
+    <!-- ==================== -->
+    <!-- 🎠 CARRUSEL -->
+    <!-- ==================== -->
+    <a-entity position="15 0 -12">
+      <!-- Base -->
+      <a-cylinder radius="4" height="0.5" color="#795548"></a-cylinder>
+
+      <!-- Plataforma girando -->
+      <a-entity animation="property: rotation; to: 0 360 0; loop: true; dur: 8000; easing: linear;">
+
+        <!-- Caballos (simples) -->
+        <a-box position="2 1 0" depth="0.5" height="1" width="0.5" color="#FF9800"></a-box>
+        <a-box position="-2 1 0" depth="0.5" height="1" width="0.5" color="#03A9F4"></a-box>
+        <a-box position="0 1 2" depth="0.5" height="1" width="0.5" color="#9C27B0"></a-box>
+        <a-box position="0 1 -2" depth="0.5" height="1" width="0.5" color="#CDDC39"></a-box>
+      </a-entity>
+
+      <!-- Techo -->
+      <a-cone radius-bottom="4" radius-top="0" height="2" color="#FFEB3B" position="0 1.5 0"></a-cone>
+    </a-entity>
+
+
+    <!-- ==================== -->
+    <!-- 🍧 PUESTO DE COMIDA -->
+    <!-- ==================== -->
+    <a-entity position="5 0 -5">
+      <a-box width="4" height="2" depth="2" color="#FF7043"></a-box>
+      <a-box width="3" height="1" depth="0.1" color="#FFF" position="0 0.5 1.05"></a-box>
+      <a-text value="HELADOS" position="-1 1 1.1" color="black"></a-text>
+    </a-entity>
+
+
+    <!-- ==================== -->
+    <!-- 👤 CÁMARA DEL USUARIO -->
+    <!-- ==================== -->
+    <a-entity camera wasd-controls look-controls position="0 1.6 5"></a-entity>
+
+  </a-scene>
+</body>
+</html>
