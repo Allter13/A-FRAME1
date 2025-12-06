@@ -8,6 +8,35 @@
 
   <body>
     <a-scene>
+        AFRAME .registerComponent ('controles-personalizados' , {esquema : { mano : { predeterminado : '' }, modelo : { predeterminado : 'customControllerModel.gltf' }   } ,
+  
+    
+    
+
+
+        actualizar: función () { var mano = this.datos.mano ; var el = this.el ; var controlConfiguration = { mano : mano , modelo : falso     } ;
+    
+    
+    
+      
+      
+
+
+            // Construir sobre los componentes del controlador.
+        el.setAttribute('vive-controls' ,controlConfiguration); 
+        el.setAttribute('meta-touch-controls' ,controlConfiguration); 
+        el.setAttribute('windows-motion-controls' ,controlConfiguration);
+
+        // Establecer un modelo.
+        el. setAttribute('gltf-model' , this . data . model ); 
+         } 
+        });
+        <a-camera > <a-cursor > </a-cursor >  </a-camera > 
+        <a-entity  hand-controls = "mano: izquierda" > </a-entity > 
+        <a-entity  hand-controls = "mano: derecha" > </a-entity > 
+        <a-entity  laser-controls = "mano: izquierda" > </a-entity > 
+        <a-entity  laser-controls = "mano: derecha" > </a-entity >
+  
 
       <!-- Cielo panorámico -->
       <a-sky src="https://cdn.aframe.io/360-image-gallery-boilerplate/img/sechelt.jpg"></a-sky>
