@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Mini Juego VR PS1 - Estético</title>
+  <title>Mini Juego VR PS1 - Cielo Retro</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
@@ -24,6 +24,17 @@
       </a-cursor>
     </a-camera>
   </a-entity>
+
+  <!-- Cielo con gradiente retro -->
+  <a-sky color="#ff7700" rotation="0 0 0">
+    <a-animation attribute="material.color" 
+                 from="#ff7700" 
+                 to="#220088" 
+                 dur="20000" 
+                 direction="alternate" 
+                 repeat="indefinite">
+    </a-animation>
+  </a-sky>
 
   <!-- Suelo estilo PS1 -->
   <a-plane 
@@ -64,3 +75,4 @@
 
 </body>
 </html>
+
