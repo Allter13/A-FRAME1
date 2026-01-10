@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Juego PS1 VR</title>
+<style>
+    body { margin: 0; overflow: hidden; background: black; }
+</style>
+</head>
+<body>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.152.2/examples/jsm/webxr/VRButton.js"></script>
+
+<script>
+/* ================= ESCENA ================= */
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x000000, 2, 20);
+
+/* ================= CÁMARA ================= */
+const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(0, 1.6, 5);
+
+/* ================= RENDER ================= */
+const renderer = new THREE.WebGLRenderer({ antialias: false });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(1); // look PS1
+renderer.xr.enabled = true;
+document.body.appendChild(renderer.domElement);
+document.body.appendChild(VRButton.createButton(renderer));
+
+/* ================= LUCES ================= */
+scene.add(new THREE.AmbientLight(0x404040));
+
+const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+dirLight.position.set(1, 4, 2);
+scene.add(dirLight);
+
+/* ================= SUELO ================= */
+const floor = new THREE.Mesh(
+    new THREE.PlaneGeometry(50, 50),
+    new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 1 })
+);
+floor.rotation.x = -Math.PI / 2;
+scene.add(floor);
+
+/* ================= PAREDES ================= */
+for (let i = 0; i < 10; i++) {
+    const wall = new THREE.Mesh(
+        new THREE.BoxGeometry(2, 2, 2),
+        new THREE.MeshStandardMaterial({ color: 0x555555, flatShading: true })
+    );
+    wall.position.set(Math.random() * 20 - 10, 1, Math.random() * -20);
+    scene.add(wall);
+}
+
+/* ================= ENEMIGO ================= */
+const enemyGeometry = new THREE.BoxGeometry(1, 1, 1);
+const enemyMaterial = new THREE.MeshStandardMaterial({
+    color: 0xff0000,
+    flatShading: true
+});
+const enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
+enemy.position.set(0, 1, -10);
+scene.add(enemy);
+
+/* ================= DISPAROS ================= */
+const bullets = [];
+function shoot(controller) {
+    const bullet = new THREE.Mesh(
+        new THREE.SphereGeometry(0.05, 6, 6),
+        new THREE.MeshBasicMaterial({ color: 0xffff00 })
+    );
+
+    const direction = new THREE.Vector3();
+    controller.getWorldDirection(direction);
+
+    bullet.position.copy(controller.position);
+    bullet.userData.velocity = direction.multiplyScalar(0.5);
+    bullets.push(bullet);
+    scene.add(bullet);
+}
+
+/* ================= CONTROLES VR ================= */
+const controller = renderer.xr.getController(0);
+controller.addEventListener('selectstart', () => shoot(controller));
+scene.add(controller);
+
+/* ================= ANIMACIÓN ================= */
+renderer.setAnimationLoop(() => {
+
+    /* Enemigo se mueve hacia el jugador */
+    const dir = new THREE.Vector3();
+    dir.subVectors(camera.position, enemy.position).normalize();
+    enemy.position.add(dir.multiplyScalar(0.02));
+
+    /* Rotación PS1 */
+    enemy.rotation.y += 0.02;
+
+    /* Balas */
+    bullets.forEach((b, i) => {
+        b.position.add(b.userData.velocity);
+
+        /* Colisión */
+        if (b.position.distanceTo(enemy.position) < 0.6) {
+            scene.remove(enemy);
+            scene.remove(b);
+            bullets.splice(i, 1);
+        }
+    });
+
+    renderer.render(scene, camera);
+});
+
+/* ================= RESIZE ================= */
+window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+
+</body>
+</html>
