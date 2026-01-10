@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Juego PS1 VR</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
     body { margin: 0; overflow: hidden; background: black; }
 </style>
@@ -55,12 +56,10 @@ for (let i = 0; i < 10; i++) {
 }
 
 /* ================= ENEMIGO ================= */
-const enemyGeometry = new THREE.BoxGeometry(1, 1, 1);
-const enemyMaterial = new THREE.MeshStandardMaterial({
-    color: 0xff0000,
-    flatShading: true
-});
-const enemy = new THREE.Mesh(enemyGeometry, enemyMaterial);
+const enemy = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshStandardMaterial({ color: 0xff0000, flatShading: true })
+);
 enemy.position.set(0, 1, -10);
 scene.add(enemy);
 
@@ -86,22 +85,16 @@ const controller = renderer.xr.getController(0);
 controller.addEventListener('selectstart', () => shoot(controller));
 scene.add(controller);
 
-/* ================= ANIMACIÓN ================= */
+/* ================= LOOP ================= */
 renderer.setAnimationLoop(() => {
 
-    /* Enemigo se mueve hacia el jugador */
     const dir = new THREE.Vector3();
     dir.subVectors(camera.position, enemy.position).normalize();
     enemy.position.add(dir.multiplyScalar(0.02));
-
-    /* Rotación PS1 */
     enemy.rotation.y += 0.02;
 
-    /* Balas */
     bullets.forEach((b, i) => {
         b.position.add(b.userData.velocity);
-
-        /* Colisión */
         if (b.position.distanceTo(enemy.position) < 0.6) {
             scene.remove(enemy);
             scene.remove(b);
