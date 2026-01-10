@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Mini Juego VR PS1 - Bosque</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+</head>
+<body>
+
+<a-scene background="color: #87ceeb" fog="type: linear; color: #87ceeb; near: 1; far: 30">
+
+  <!-- Cámara -->
+  <a-entity position="0 1.6 0">
+    <a-camera>
+      <a-cursor 
+        color="#ffcc00" 
+        fuse="true" 
+        fuse-timeout="800"
+        geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.018">
+      </a-cursor>
+    </a-camera>
+  </a-entity>
+
+  <!-- Suelo estilo tierra con camino -->
+  <a-plane rotation="-90 0 0" width="50" height="50" color="#556b2f" material="shader: flat"></a-plane>
+  <a-plane rotation="-90 0 0" width="10" height="50" color="#8b4513" position="0 0.01 0" material="shader: flat"></a-plane>
+
+  <!-- Árboles simples estilo PS1 -->
+  <a-cylinder position="-4 1 -5" radius="0.3" height="2" color="#654321" material="shader: flat"></a-cylinder>
+  <a-cone position="-4 2 -5" radius-bottom="1" radius-top="0" height="2" color="#228B22" material="shader: flat"></a-cone>
+
+  <a-cylinder position="4 1 -8" radius="0.3" height="2" color="#654321" material="shader: flat"></a-cylinder>
+  <a-cone position="4 2 -8" radius-bottom="1" radius-top="0" height="2" color="#228B22" material="shader: flat"></a-cone>
+
+  <a-cylinder position="2 1 -12" radius="0.3" height="2" color="#654321" material="shader: flat"></a-cylinder>
+  <a-cone position="2 2 -12" radius-bottom="1" radius-top="0" height="2" color="#228B22" material="shader: flat"></a-cone>
+
+  <!-- Obstáculos tipo rocas -->
+  <a-sphere position="-2 0.5 -6" radius="0.5" color="#888" material="shader: flat"></a-sphere>
+  <a-sphere position="3 0.4 -10" radius="0.4" color="#666" material="shader: flat"></a-sphere>
+
+  <!-- Enemigos -->
+  <a-box position="0 1 -5" depth="1.5" height="1.5" width="1" color="#8b0000" material="shader: flat"
+         animation="property: rotation; to: 0 360 0; loop: true; dur: 5000"
+         animation__pulse="property: scale; dir: alternate; dur: 1000; to: 1.1 1.1 1.1"></a-box>
+
+  <a-box position="2 1 -9" depth="1.2" height="1.2" width="1" color="#b22222" material="shader: flat"
+         animation="property: rotation; to: 0 360 0; loop: true; dur: 4000"
+         animation__pulse="property: scale; dir: alternate; dur: 1200; to: 1.05 1.05 1.05"></a-box>
+
+  <a-box position="-3 1 -12" depth="1" height="1" width="1" color="#a52a2a" material="shader: flat"
+         animation="property: rotation; to: 0 360 0; loop: true; dur: 4500"
+         animation__pulse="property: scale; dir: alternate; dur: 1200; to: 1.05 1.05 1.05"></a-box>
+
+  <!-- Luz ambiental -->
+  <a-light type="ambient" color="#bbb" intensity="0.6"></a-light>
+
+  <!-- Luz direccional tipo sol -->
+  <a-light type="directional" color="#fff" intensity="0.8" position="5 10 -3"></a-light>
+
+  <!-- Cielo con gradiente -->
+  <a-sky id="sky" color="#87ceeb"></a-sky>
+
+  <script>
+    // Animación de cielo simple
+    const sky = document.querySelector('#sky');
+    let t = 0;
+    function animateSky() {
+      t += 0.002;
+      const r = Math.floor(135 * (1 - t % 1));
+      const g = Math.floor(206 * (1 - t % 1));
+      const b = Math.floor(235 * (t % 1) + 120 * (1 - t % 1));
+      sky.setAttribute('color', `rgb(${r},${g},${b})`);
+      requestAnimationFrame(animateSky);
+    }
+    animateSky();
+  </script>
+
+</a-scene>
+
+</body>
+</html>
