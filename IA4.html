@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <title>Mini Juego VR PS1 - Cielo Retro</title>
+  <title>Mini Juego VR PS1 - Cielo Retro Visible</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
 </head>
@@ -26,15 +26,7 @@
   </a-entity>
 
   <!-- Cielo con gradiente retro -->
-  <a-sky color="#ff7700" rotation="0 0 0">
-    <a-animation attribute="material.color" 
-                 from="#ff7700" 
-                 to="#220088" 
-                 dur="20000" 
-                 direction="alternate" 
-                 repeat="indefinite">
-    </a-animation>
-  </a-sky>
+  <a-sky id="sky" color="#ff7700"></a-sky>
 
   <!-- Suelo estilo PS1 -->
   <a-plane 
@@ -71,8 +63,12 @@
     position="1 4 -2">
   </a-light>
 
-</a-scene>
-
-</body>
-</html>
+  <!-- SCRIPT para animar cielo -->
+  <script>
+    const sky = document.querySelector('#sky');
+    let t = 0;
+    function animateSky() {
+      t += 0.005;
+      // interpolación simple naranja -> azul oscuro
+      const r = Math.floor(255 * (1 - t % 1*
 
