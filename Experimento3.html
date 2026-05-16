@@ -23,7 +23,11 @@
        <a-entity gltf-model="#F" position="3 0 -2" scale="0.001 0.001 0.001" rotation="0 0 0"color="#094F0F">
         </a-entity>
        
-
+      <a-entity position="0 1.6 0" rotation="0 0 0"> 
+      <a-camera wasd-controls="acceleration:100; fly:true" look-controls position="0 1.6 0"></a-camera> <!-- Esta es por defecto a la altura de los ojos -->
+      <a-entity oculus-touch-controls="hand: right"></a-entity>
+      <a-entity oculus-touch-controls="hand: left"></a-entity>
+      </a-entity>
        
 
       <!-- Cielo -->
